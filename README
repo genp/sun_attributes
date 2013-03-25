@@ -1,0 +1,51 @@
+SUN Attribute Database Classifiers v2
+
+This release includes pre-computed classifiers for all of the attributes of the SUN Attribute dataset as described in the paper:
+﻿Genevieve Patterson, James Hays. SUN Attribute Database: Discovering, Annotating, and Recognizing Scene Attributes. Proceedings of CVPR 2012. 
+
+How to Use:
+
+A vector of attribute confidences for a given query image can be computed using the following Matlab function - 
+	confidence_vector = classify_attribute(test_image, image_kernel_save_path, image_path, image_feat_path, classifier_path)
+Instructions for how to use this function can be found in the header of classify_attribute.m. 
+
+	IMPORTANT: set up your operating paths in attributes_globals.m before trying to classify any test images.
+			Add the path to all of the SUN dataset source code and Attribute dataset source code to the working path
+			before trying to classify attributes. Also setup the vlfeat library by running the command:
+
+			vl_setup('noprefix');
+
+	Known issue: If you receive an error when the geometric color histogram features are being calculated that looks like this:
+			"/bin/bash: ../segment_pedro/segment: No such file or directory"
+			Go to the file "SUN_source_code_v2/code/GeometricContext_dhoiem/src/im2superpixels.m"
+			and change line 8 to -- "segcmd = 'segment_pedro/segment 0.8 100 100';"
+
+	
+
+Required Packages (these should be included in Matlab's working directory):
+	SUN Database source code v2
+	http://people.csail.mit.edu/jxiao/SUN/source_code/
+
+	Primal SVM
+	http://olivier.chapelle.cc/primal/
+
+
+How to re-compute classifiers:
+
+To generate new test/train sets run:
+	generate_train_test_set.m
+
+To calculate features for all of the SUN Attribute DB images and create the required feature matricies run:
+	calc_feature_set.m
+
+To calculate the required kernels run:
+	calc_master_kernel.m
+	calc_master_combined_kernel.m
+
+To train the attribute classifiers, run the following function for each attribute:
+	train_attribute_svm.m
+
+
+-- 
+Genevieve Patterson, 12/18/2012
+
